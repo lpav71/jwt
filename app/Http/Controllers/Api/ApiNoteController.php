@@ -39,9 +39,21 @@ class ApiNoteController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
-        $note = $user->notes()->get(); //Получаем все записи текущего пользователя
-        return $note;
+        if (isset(json_decode($response)->id))
+        {
+            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $note = $user->notes()->get(); //Получаем все записи текущего пользователя
+            return $note;
+        }
+        else
+        {
+            $message = array(
+                'massage' => 'Unauthorized'
+            );
+            return $message;
+        }
+
+
     }
 
     /**
@@ -85,11 +97,21 @@ class ApiNoteController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
-        $note = new Note();
-        $note->record = $request->record;
-        $user->notes()->save($note);
-        return $note;
+        if (isset(json_decode($response)->id))
+        {
+            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $note = new Note();
+            $note->record = $request->record;
+            $user->notes()->save($note);
+            return $note;
+        }
+        else
+        {
+            $message = array(
+                'massage' => 'Unauthorized'
+            );
+            return $message;
+        }
     }
 
     /**
@@ -146,10 +168,20 @@ class ApiNoteController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
-        $note->record = $request->record;
-        $user->notes()->save($note);
-        return $note;
+        if (isset(json_decode($response)->id))
+        {
+            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $note->record = $request->record;
+            $user->notes()->save($note);
+            return $note;
+        }
+    else
+        {
+            $message = array(
+                'massage' => 'Unauthorized'
+            );
+            return $message;
+        }
     }
 
     /**
