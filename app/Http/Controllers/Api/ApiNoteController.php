@@ -30,7 +30,7 @@ class ApiNoteController extends Controller
         else
         {
             $message = array(
-                'massage' => 'Unauthorized'
+                'massage' => 'User ID not found'
             );
             return $message;
         }
