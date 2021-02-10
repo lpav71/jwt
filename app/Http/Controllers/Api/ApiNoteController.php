@@ -25,14 +25,14 @@ class ApiNoteController extends Controller
         {
             $user = User::find($user_id); //И тут му можем уже сделать выборку по id пользователя
             $note = $user->notes()->get(); //Получаем все записи текущего пользователя
-            return $note;
+            return response($note, 200);
         }
         else
         {
             $message = array(
                 'massage' => 'User ID not found'
             );
-            return $message;
+            return response($message, 404);
         }
     }
 
@@ -51,14 +51,13 @@ class ApiNoteController extends Controller
             $note = new Note();
             $note->record = $request->record;
             $user->notes()->save($note);
-            return $note;
+            return response($note, 200);
         }
-        else
-        {
+        else {
             $message = array(
                 'massage' => 'User ID not found'
             );
-            return $message;
+            return response($message, 404);
         }
     }
 
@@ -78,14 +77,14 @@ class ApiNoteController extends Controller
             $user = User::find($user_id); //И тут му можем уже сделать выборку по id пользователя
             $note->record = $request->record;
             $user->notes()->save($note);
-            return $note;
+            return response($note, 200);
         }
     else
         {
             $message = array(
-                'massage' => 'Unauthorized'
+                'massage' => 'User ID not found'
             );
-            return $message;
+            return response($message, 404);
         }
     }
 
@@ -101,6 +100,6 @@ class ApiNoteController extends Controller
         $message = array(
             'massage' => 'Deleted'
         );
-        return $message;
+        return response($message, 200);
     }
 }
