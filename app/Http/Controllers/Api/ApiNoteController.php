@@ -16,11 +16,10 @@ class ApiNoteController extends Controller
      */
     public function index(Request $request)
     {
-        $user = json_encode(auth()->user());
-
-        if (isset(json_decode($user)->id))
+        $user = auth()->user()->id;
+        if (isset($user))
         {
-            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find($user); //И тут му можем уже сделать выборку по id пользователя
             $note = $user->notes()->get(); //Получаем все записи текущего пользователя
             return $note;
         }
@@ -53,10 +52,10 @@ class ApiNoteController extends Controller
      */
     public function store(Request $request)
     {
-        $user = json_encode(auth()->user());
-        if (isset(json_decode($user)->id))
+        $user = auth()->user()->id;
+        if (isset($user))
         {
-            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find($user); //И тут му можем уже сделать выборку по id пользователя
             $note = new Note();
             $note->record = $request->record;
             $user->notes()->save($note);
@@ -102,11 +101,11 @@ class ApiNoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        $user = json_encode(auth()->user());
+        $user = auth()->user()->id;
 
-        if (isset(json_decode($user)->id))
+        if (isset($user))
         {
-            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find($user); //И тут му можем уже сделать выборку по id пользователя
             $note->record = $request->record;
             $user->notes()->save($note);
             return $note;
