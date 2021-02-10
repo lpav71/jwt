@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class ApiNoteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'registration']]);
+    }
     /**
      * Display a listing of the resource.
      *
