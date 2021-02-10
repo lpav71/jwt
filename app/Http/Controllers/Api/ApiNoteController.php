@@ -16,32 +16,11 @@ class ApiNoteController extends Controller
      */
     public function index(Request $request)
     {
-        //Нам необходимо получить id пользователя. Для этого:
-        $token = ($request->headers->all('authorization')); //Получаем токен из заголовка текущего запроса
-        $curl = curl_init();
+        $user = json_encode(auth()->user());
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://jwt/api/auth/me',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/x-www-form-urlencoded',
-                'Accept: application/json',
-                'Authorization: '.$token[0]
-                ),
-        ));
-        //Отправляем запрос на функцию me которая нам вернет запись текущего пользователя
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        if (isset(json_decode($response)->id))
+        if (isset(json_decode($user)->id))
         {
-            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
             $note = $user->notes()->get(); //Получаем все записи текущего пользователя
             return $note;
         }
@@ -74,32 +53,10 @@ class ApiNoteController extends Controller
      */
     public function store(Request $request)
     {
-        //Нам необходимо получить id пользователя. Для этого:
-        $token = ($request->headers->all('authorization')); //Получаем токен из заголовка текущего запроса
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://jwt/api/auth/me',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/x-www-form-urlencoded',
-                'Accept: application/json',
-                'Authorization: '.$token[0]
-            ),
-        ));
-        //Отправляем запрос на функцию me которая нам вернет запись текущего пользователя
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        if (isset(json_decode($response)->id))
+        $user = json_encode(auth()->user());
+        if (isset(json_decode($user)->id))
         {
-            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
             $note = new Note();
             $note->record = $request->record;
             $user->notes()->save($note);
@@ -145,32 +102,11 @@ class ApiNoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        //Нам необходимо получить id пользователя. Для этого:
-        $token = ($request->headers->all('authorization')); //Получаем токен из заголовка текущего запроса
-        $curl = curl_init();
+        $user = json_encode(auth()->user());
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://jwt/api/auth/me',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/x-www-form-urlencoded',
-                'Accept: application/json',
-                'Authorization: '.$token[0]
-            ),
-        ));
-        //Отправляем запрос на функцию me которая нам вернет запись текущего пользователя
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        if (isset(json_decode($response)->id))
+        if (isset(json_decode($user)->id))
         {
-            $user = User::find(json_decode($response)->id); //И тут му можем уже сделать выборку по id пользователя
+            $user = User::find(json_decode($user)->id); //И тут му можем уже сделать выборку по id пользователя
             $note->record = $request->record;
             $user->notes()->save($note);
             return $note;
