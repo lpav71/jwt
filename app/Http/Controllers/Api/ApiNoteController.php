@@ -98,7 +98,7 @@ class ApiNoteController extends Controller
     {
         $note->delete();
         $message = array(
-            'massage' => 'Deleted'
+            'message' => 'Deleted'
         );
         return response($message, 200);
     }
