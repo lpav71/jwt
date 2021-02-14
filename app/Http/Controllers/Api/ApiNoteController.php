@@ -30,7 +30,7 @@ class ApiNoteController extends Controller
         else
         {
             $message = array(
-                'massage' => 'User ID not found'
+                'message' => 'User ID not found'
             );
             return response($message, 404);
         }
@@ -55,7 +55,7 @@ class ApiNoteController extends Controller
         }
         else {
             $message = array(
-                'massage' => 'User ID not found'
+                'message' => 'User ID not found'
             );
             return response($message, 404);
         }
